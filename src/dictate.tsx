@@ -12,7 +12,11 @@ import {
   type Preferences,
 } from "./shared";
 
-const SOX_PATHS = ["/opt/homebrew/bin/rec", "/usr/local/bin/rec", "/usr/bin/rec"];
+const SOX_PATHS = [
+  "/opt/homebrew/bin/rec",
+  "/usr/local/bin/rec",
+  "/usr/bin/rec",
+];
 const PID_FILE = join(tmpdir(), "voxtral_rec.pid");
 const AUDIO_FILE = join(tmpdir(), "voxtral_rec.wav");
 
@@ -42,11 +46,14 @@ async function transcribe(audioPath: string, apiKey: string): Promise<string> {
   form.append("file", blob, "recording.wav");
   form.append("model", "voxtral-mini-latest");
 
-  const response = await fetch("https://api.mistral.ai/v1/audio/transcriptions", {
-    method: "POST",
-    headers: { Authorization: `Bearer ${apiKey}` },
-    body: form,
-  });
+  const response = await fetch(
+    "https://api.mistral.ai/v1/audio/transcriptions",
+    {
+      method: "POST",
+      headers: { Authorization: `Bearer ${apiKey}` },
+      body: form,
+    },
+  );
 
   await checkMistralResponse(response);
   const result = (await response.json()) as { text: string };
@@ -63,10 +70,14 @@ export default async function Command() {
   const pid = await getRecordingPid();
 
   if (pid === null) {
-    const proc = spawn(recPath, ["-q", "-c", "1", "-b", "16", AUDIO_FILE, "rate", "16000"], {
-      detached: true,
-      stdio: "ignore",
-    });
+    const proc = spawn(
+      recPath,
+      ["-q", "-c", "1", "-b", "16", AUDIO_FILE, "rate", "16000"],
+      {
+        detached: true,
+        stdio: "ignore",
+      },
+    );
     proc.unref();
 
     if (proc.pid) {

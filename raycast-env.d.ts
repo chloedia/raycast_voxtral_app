@@ -11,7 +11,7 @@ type ExtensionPreferences = {
   /** Mistral API Key - Your Mistral AI API key for Voxtral transcription */
   "apiKey": string,
   /** Reformulation Prompt - Custom system prompt for reformulating transcriptions. Leave empty for the default. */
-  "reformulatePrompt": unknown
+  "reformulatePrompt": string
 }
 
 /** Preferences accessible in all the extension's commands */
