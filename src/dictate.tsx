@@ -3,29 +3,17 @@ import { spawn } from "child_process";
 import { tmpdir } from "os";
 import { join } from "path";
 import { readFile, unlink, writeFile } from "fs/promises";
-import { existsSync } from "fs";
 import {
   LAST_TRANSCRIPTION_FILE,
   REFORMULATED_FILE,
   checkMistralResponse,
   callReformulate,
+  findSox,
   showErrorHUD,
 } from "./shared";
 
-const SOX_PATHS = [
-  "/opt/homebrew/bin/rec",
-  "/usr/local/bin/rec",
-  "/usr/bin/rec",
-];
 const PID_FILE = join(tmpdir(), "voxtral_rec.pid");
 const AUDIO_FILE = join(tmpdir(), "voxtral_rec.wav");
-
-function findRec(): string | null {
-  for (const p of SOX_PATHS) {
-    if (existsSync(p)) return p;
-  }
-  return null;
-}
 
 async function getRecordingPid(): Promise<number | null> {
   try {
@@ -61,7 +49,7 @@ async function transcribe(audioPath: string, apiKey: string): Promise<string> {
 }
 
 export default async function Command() {
-  const recPath = findRec();
+  const recPath = findSox("rec");
   if (!recPath) {
     await showHUD("SoX not found. Run: brew install sox");
     return;
