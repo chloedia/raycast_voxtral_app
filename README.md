@@ -7,11 +7,12 @@ A Raycast extension for speech-to-text dictation powered by [Mistral's Voxtral](
 - **Dictate** — Toggle recording with a single shortcut. Press once to start, press again to stop and paste the transcription at your cursor.
 - **Reformulate** — Open a comparison view showing the raw transcription alongside a cleaned-up version (via Mistral Chat). Choose which to paste.
 - **Customizable reformulation prompt** — Configure the system prompt used for reformulation in the extension preferences.
+- **Speak Clipboard** — Read the clipboard text aloud with Voxtral TTS. Change speed with `Cmd+1`…`Cmd+4` (x1, x1.5, x2, x3). Press `Esc` to stop playback.
 
 ## Prerequisites
 
 - [Raycast](https://raycast.com)
-- [SoX](http://sox.sourceforge.net/) for microphone recording:
+- [SoX](http://sox.sourceforge.net/) for microphone recording and speech playback:
   ```
   brew install sox
   ```
@@ -37,6 +38,7 @@ A Raycast extension for speech-to-text dictation powered by [Mistral's Voxtral](
 4. Assign keyboard shortcuts in Raycast:
    - **Dictate** — e.g. `Cmd+Shift+Space` (toggle recording on/off)
    - **Reformulate Last Dictation** — e.g. `Cmd+Shift+R` (review & choose version)
+   - **Speak Clipboard** — e.g. `Cmd+Shift+S` (read clipboard, `Esc` to stop)
 
 ## Commands
 
@@ -44,6 +46,7 @@ A Raycast extension for speech-to-text dictation powered by [Mistral's Voxtral](
 |---------|------|-------------|
 | **Dictate** | no-view | Toggle: start recording, or stop and paste transcription |
 | **Reformulate Last Dictation** | view | Compare raw vs reformulated text, then paste your choice |
+| **Speak Clipboard** | view | Read clipboard text aloud; press `Esc` to stop |
 
 ## How it works
 
@@ -51,6 +54,7 @@ A Raycast extension for speech-to-text dictation powered by [Mistral's Voxtral](
 2. **Transcription** — Sends the audio to `POST https://api.mistral.ai/v1/audio/transcriptions` using the `voxtral-mini-latest` model.
 3. **Pasting** — Uses Raycast's `Clipboard.paste()` to insert text at the current cursor position.
 4. **Reformulation** — Sends the raw transcription to `POST https://api.mistral.ai/v1/chat/completions` using `mistral-small-latest` with a configurable system prompt.
+5. **Speech** — Detects whether the clipboard is French or English with macOS `NaturalLanguage`, picks the matching voice, then sends the text to `POST https://api.mistral.ai/v1/audio/speech` using `voxtral-mini-tts-latest` and plays the MP3 with macOS `afplay`. Both voices are configurable in the command preferences (defaults: `fr_marie_neutral`, `en_paul_neutral`).
 
 ## Project structure
 
@@ -59,6 +63,7 @@ src/
   shared.ts        # Shared constants, types, and helpers
   dictate.tsx       # Dictate command (record + transcribe + paste)
   reformulate.tsx   # Reformulate command (compare + choose + paste)
+  speak.tsx         # Speak Clipboard command (text-to-speech)
 assets/
   icon.png          # Extension icon
 package.json        # Raycast manifest, preferences, and dependencies

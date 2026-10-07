@@ -6,3 +6,4 @@
 - Reformulate command: compare raw vs reformulated transcription and choose which to paste
 - Auto-reformulate preference: optionally reformulate before pasting
 - Customizable reformulation system prompt
+- Speak Clipboard command: read clipboard text aloud with Voxtral TTS

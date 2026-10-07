@@ -8,7 +8,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
 
 type ExtensionPreferences = {
-  /** Mistral API Key - Your Mistral AI API key for Voxtral transcription */
+  /** Mistral API Key - Your Mistral AI API key for Voxtral */
   "apiKey": string,
   /** Auto-Reformulate - Automatically reformulate transcriptions before pasting */
   "autoReformulate": boolean,
@@ -24,6 +24,13 @@ declare namespace Preferences {
   export type Dictate = ExtensionPreferences & {}
   /** Preferences accessible in the `reformulate` command */
   export type Reformulate = ExtensionPreferences & {}
+  /** Preferences accessible in the `speak` command */
+  export type Speak = ExtensionPreferences & {
+  /** French Voice - Voxtral voice used when the clipboard text is detected as French */
+  "frenchVoice": string,
+  /** English Voice - Voxtral voice used when the clipboard text is detected as English, e.g. en_paul_neutral, gb_jane_neutral */
+  "englishVoice": string
+}
 }
 
 declare namespace Arguments {
@@ -31,5 +38,7 @@ declare namespace Arguments {
   export type Dictate = {}
   /** Arguments passed to the `reformulate` command */
   export type Reformulate = {}
+  /** Arguments passed to the `speak` command */
+  export type Speak = {}
 }
 

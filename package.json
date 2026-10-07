@@ -2,7 +2,7 @@
   "$schema": "https://www.raycast.com/schemas/extension.json",
   "name": "voxtral-dictation",
   "title": "Voxtral Dictation",
-  "description": "Speech-to-text dictation powered by Mistral's Voxtral. Record your voice and paste the transcription at your cursor.",
+  "description": "Speech-to-text dictation and text-to-speech powered by Mistral's Voxtral.",
   "icon": "icon.png",
   "author": "chloe_daems",
   "categories": ["Productivity"],
@@ -19,13 +19,37 @@
       "title": "Reformulate Last Dictation",
       "description": "Compare raw and reformulated transcription, then choose which to paste",
       "mode": "view"
+    },
+    {
+      "name": "speak",
+      "title": "Speak Clipboard",
+      "description": "Read the clipboard text aloud with Voxtral. Press Esc to stop.",
+      "mode": "view",
+      "preferences": [
+        {
+          "name": "frenchVoice",
+          "title": "French Voice",
+          "description": "Voxtral voice used when the clipboard text is detected as French",
+          "type": "textfield",
+          "required": false,
+          "default": "fr_marie_neutral"
+        },
+        {
+          "name": "englishVoice",
+          "title": "English Voice",
+          "description": "Voxtral voice used when the clipboard text is detected as English, e.g. en_paul_neutral, gb_jane_neutral",
+          "type": "textfield",
+          "required": false,
+          "default": "en_paul_neutral"
+        }
+      ]
     }
   ],
   "preferences": [
     {
       "name": "apiKey",
       "title": "Mistral API Key",
-      "description": "Your Mistral AI API key for Voxtral transcription",
+      "description": "Your Mistral AI API key for Voxtral",
       "type": "password",
       "required": true
     },

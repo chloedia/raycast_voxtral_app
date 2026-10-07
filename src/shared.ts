@@ -1,9 +1,18 @@
 import { showHUD } from "@raycast/api";
+import { existsSync } from "fs";
 import { tmpdir } from "os";
 import { join } from "path";
 
 export const LAST_TRANSCRIPTION_FILE = join(tmpdir(), "voxtral_last.txt");
 export const REFORMULATED_FILE = join(tmpdir(), "voxtral_reformulated.txt");
+
+export function findSox(binary: "rec" | "play"): string | null {
+  for (const dir of ["/opt/homebrew/bin", "/usr/local/bin", "/usr/bin"]) {
+    const path = join(dir, binary);
+    if (existsSync(path)) return path;
+  }
+  return null;
+}
 
 export async function callReformulate(
   text: string,
